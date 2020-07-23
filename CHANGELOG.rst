@@ -2,6 +2,35 @@
 Changelog for package ros1_bridge
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.9.3 (2020-07-07)
+------------------
+* Fix multiple definition if message with same name as service exists (`#272 <https://github.com/ros2/ros1_bridge/issues/272>`_)
+* Contributors: Dirk Thomas
+
+0.9.2 (2020-06-01)
+------------------
+* When generating service mappings cast pair to set to avoid duplicate pairs (`#268 <https://github.com/ros2/ros1_bridge/issues/268>`_)
+* Contributors: Gavin Suddrey
+
+0.9.1 (2020-05-27)
+------------------
+* Deprecate package key for service parameters, use full type instead (`#263 <https://github.com/ros2/ros1_bridge/issues/263>`_)
+* Fix removing obsolete ROS 2 service bridges (`#267 <https://github.com/ros2/ros1_bridge/issues/267>`_)
+* Gracefully handle invalid ROS 1 publishers (`#266 <https://github.com/ros2/ros1_bridge/issues/266>`_)
+* Use reliable publisher in simple bridge (`#264 <https://github.com/ros2/ros1_bridge/issues/264>`_)
+* Remove outdated information on Fast RTPS bug (`#260 <https://github.com/ros2/ros1_bridge/issues/260>`_)
+* Contributors: Dirk Thomas, Thom747
+
+0.9.0 (2020-05-18)
+------------------
+* Avoid new deprecations (`#255 <https://github.com/ros2/ros1_bridge/issues/255>`_)
+* Updates since changes to message_info in rclcpp (`#253 <https://github.com/ros2/ros1_bridge/issues/253>`_)
+* Assert ROS 1 nodes' stdout (`#247 <https://github.com/ros2/ros1_bridge/issues/247>`_)
+* Ignore actionlib_msgs deprecation warning (`#245 <https://github.com/ros2/ros1_bridge/issues/245>`_)
+* Drop workaround for https://github.com/ros2/rmw_fastrtps/issues/265. (`#233 <https://github.com/ros2/ros1_bridge/issues/233>`_)
+* Code style only: wrap after open parenthesis if not in one line (`#238 <https://github.com/ros2/ros1_bridge/issues/238>`_)
+* Contributors: Dirk Thomas, Jacob Perron, Michel Hidalgo, William Woodall
+
 0.8.2 (2020-01-17)
 ------------------
 * fix building test when ROS 1 diagnostic_msgs is isolated from roscpp (`#236 <https://github.com/ros2/ros1_bridge/issues/236>`_)

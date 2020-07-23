@@ -117,7 +117,7 @@ public:
     rclcpp::PublisherBase::SharedPtr ros2_pub = nullptr)
   {
     std::function<
-      void(const typename ROS2_T::SharedPtr msg, const rmw_message_info_t & msg_info)> callback;
+      void(const typename ROS2_T::SharedPtr msg, const rclcpp::MessageInfo & msg_info)> callback;
     callback = std::bind(
       &Factory<ROS1_T, ROS2_T>::ros2_callback, std::placeholders::_1, std::placeholders::_2,
       ros1_pub, ros1_type_name_, ros2_type_name_, node->get_logger(), ros2_pub);
@@ -190,7 +190,7 @@ protected:
   static
   void ros2_callback(
     typename ROS2_T::SharedPtr ros2_msg,
-    const rmw_message_info_t & msg_info,
+    const rclcpp::MessageInfo & msg_info,
     ros::Publisher ros1_pub,
     const std::string & ros1_type_name,
     const std::string & ros2_type_name,
@@ -199,7 +199,10 @@ protected:
   {
     if (ros2_pub) {
       bool result = false;
-      auto ret = rmw_compare_gids_equal(&msg_info.publisher_gid, &ros2_pub->get_gid(), &result);
+      auto ret = rmw_compare_gids_equal(
+        &msg_info.get_rmw_message_info().publisher_gid,
+        &ros2_pub->get_gid(),
+        &result);
       if (ret == RMW_RET_OK) {
         if (result) {  // message GID equals to bridge's ROS2 publisher GID
           return;  // do not publish messages from bridge itself
@@ -209,6 +212,16 @@ protected:
         rmw_reset_error();
         throw std::runtime_error(msg);
       }
+    }
+
+    void * ptr = ros1_pub;
+    if (ptr == 0) {
+      RCLCPP_WARN_ONCE(
+        logger,
+        "Message from ROS 2 %s failed to be passed to ROS 1 %s because the "
+        "ROS 1 publisher is invalid (showing msg only once per type)",
+        ros2_type_name.c_str(), ros1_type_name.c_str());
+      return;
     }
 
     ROS1_T ros1_msg;
